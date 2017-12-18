@@ -4,10 +4,10 @@ const captureScreenshot = require('../services/captureScreenshot');
 const drawElements = require('../services/drawElements');
 
 module.exports = {
-  loadPageObject(file) {capturePageInfo
+  loadPageObject(file) {
     loadPageObject(file)
-      .catch((err) => this.dispatch('failedToLoadPageObject', err))
-      .then((po) => this.dispatch('didLoadPageObject', po));
+      .then((po) => this.dispatch('didLoadPageObject', po))
+      .catch((err) => this.dispatch('failedToLoadPageObject', err));
   },
 
   capturePage(po) {

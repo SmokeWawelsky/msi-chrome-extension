@@ -14,7 +14,7 @@ const PageObject = createReactClass({
   },
 
   render() {
-    const po = JSON.stringify(this.state.po);
+    const po = JSON.stringify(this.state.po, null, 2);
     return (
       <div className="pageobject">
         <pre>{po}</pre>
