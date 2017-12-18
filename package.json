@@ -1,0 +1,35 @@
+{
+  "name": "msi",
+  "version": "0.0.1",
+  "author": "Tomasz Kisiel <tomasz.kisiel@avanade.com>",
+  "private": true,
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack --watch"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">6.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-preset-env": "1.6.1",
+    "babel-preset-react": "6.24.1",
+    "bootstrap": "3.3.7",
+    "css-loader": "0.28.7",
+    "eslint": "4.13.1",
+    "eslint-plugin-react": "7.5.1",
+    "file-loader": "1.1.6",
+    "less": "2.7.3",
+    "less-loader": "4.0.5",
+    "style-loader": "0.19.1",
+    "webpack": "3.10.0"
+  },
+  "dependencies": {
+    "create-react-class": "15.6.2",
+    "fluxxor": "1.7.3",
+    "react": "15.6.2",
+    "react-dom": "15.6.2"
+  }
+}
