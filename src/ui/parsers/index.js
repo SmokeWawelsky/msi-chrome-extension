@@ -1,5 +1,5 @@
 const parsers = [
-  'js', 'java'
+  'js', 'java', 'cs'
 ].reduce((ps, name) => Object.assign(ps, { [name]: require(`./${name}Parser`) }), {});
 
 exports.findFor = function(fileName) {

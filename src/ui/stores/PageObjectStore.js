@@ -21,7 +21,12 @@ module.exports = Fluxxor.createStore({
   },
 
   onDidCapturePageInfo(info) {
-    this.info = info;
+    this.dimensions = info.dimensions;
+    this.po.elements.forEach((element) => {
+      const coords = info.elements[element.name];
+      if (coords) element.coords = coords;
+      else console.warn('Failed to resolve coords of element', JSON.stringify(element));
+    });
     this.emit('change');
   },
 

@@ -4,10 +4,9 @@ let ID = 0;
 
 module.exports = function capturePageInfo(po) {
   const id = ID++;
-  const selectors = Object.keys(po);
   return communicator.exchange({
     name: 'capturePageInfo',
-    data: { id, selectors },
+    data: { id, elements: po.elements },
     response: `capturedPageInfo:${id}`
   });
 };

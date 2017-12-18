@@ -8,7 +8,12 @@ module.exports = function drawElements(elements, imageData) {
 
     canvas.ctx.strokeStyle = 'red';
     canvas.ctx.lineWidth = 3;
-    elements.forEach((coords) => canvas.ctx.strokeRect(coords.x, coords.y, coords.width, coords.height));
+    elements.forEach((element) => {
+      if (element.coords) {
+        const { x, y, width, height } = element.coords;
+        canvas.ctx.strokeRect(x, y, width, height);
+      }
+    });
 
     return canvas.toDataURL();
   });
