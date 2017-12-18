@@ -1,6 +1,6 @@
-const parsers = {
-  java: require('./javaParser')
-};
+const parsers = [
+  'js', 'java'
+].reduce((ps, name) => Object.assign(ps, { [name]: require(`./${name}Parser`) }), {});
 
 exports.findFor = function(fileName) {
   const type = ext(fileName);
