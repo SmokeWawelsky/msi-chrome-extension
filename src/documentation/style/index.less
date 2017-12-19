@@ -1,0 +1,22 @@
+@import "~bootstrap/less/bootstrap";
+@icon-font-path: '~bootstrap/fonts/';
+@import 'SplitPane';
+@import 'SearchInput';
+
+.accordion {
+  border-bottom: 1px solid #999;
+  /* Header */
+  & > div > div:first-of-type {
+    border: 1px solid #999;
+    border-bottom: 0;
+    padding: 1em;
+    background-color: #eee;
+  }
+  /* Content */
+  & > div > div:last-of-type {
+    border-left: 1px solid #999;
+    border-right: 1px solid #999;
+
+    & .panel { margin-bottom: 0; }
+  }
+}

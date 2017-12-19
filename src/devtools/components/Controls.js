@@ -25,7 +25,7 @@ const Control = createReactClass({
 
   handleExport(e) {
     e.stopPropagation();
-    this.getFlux().actions.pageobject.export(this.state.po, this.state.screenshot);
+    this.getFlux().actions.pageobject.export(this.state);
   },
 
   render() {

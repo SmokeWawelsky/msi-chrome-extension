@@ -2,13 +2,13 @@ const fs = require('fs');
 const expect = require('chai').expect;
 const debug = require('debug')('msi:test:csParser');
 
-const parsers = require('../../../src/ui/parsers');
-const csParser = require('../../../src/ui/parsers/csParser');
+const parsers = require('../../../src/devtools/parsers');
+const csParser = require('../../../src/devtools/parsers/csParser');
 
 const CS_FILE_NAME = 'TestPageObject.cs';
 const CS_FILE = `${__dirname}/${CS_FILE_NAME}`;
 
-describe('ui/parsers', function() {
+describe('devtools/parsers', function() {
   describe('csParser', function() {
 
     it('should find c# parser', function(done) {

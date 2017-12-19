@@ -7,7 +7,9 @@ module.exports = Fluxxor.createStore({
     'didCapturePageInfo': 'onDidCapturePageInfo',
     'didCaptureScreenshot': 'onDidCaptureScreenshot',
     'didDrawElements': 'onDidDrawElements',
-    'failedToCapturePage': 'onFailedToCapturePage'
+    'failedToCapturePage': 'onFailedToCapturePage',
+    'didExportAsHtml': 'onDidExportAsHtml',
+    'failedToExportAsHtml': 'onFailedToExportAsHtml'
   },
 
   onFailedToLoadPageObject(err) {
@@ -44,5 +46,13 @@ module.exports = Fluxxor.createStore({
 
   onFailedToCapturePage(err) {
     this.flux.actions.log.error('Failed to capture page:', err);
+  },
+
+  onDidExportAsHtml() {
+    this.flux.actions.log.info('Exported.');
+  },
+
+  onFailedToExportAsHtml(err) {
+    this.flux.actions.log.error('Failed to export as html:', err);
   }
 });

@@ -2,6 +2,7 @@ const loadPageObject = require('../services/loadPageObject');
 const capturePageInfo = require('../services/capturePageInfo');
 const captureScreenshot = require('../services/captureScreenshot');
 const drawElements = require('../services/drawElements');
+const exportAsHtml = require('../services/exportAsHtml');
 
 module.exports = {
   loadPageObject(file) {
@@ -25,7 +26,9 @@ module.exports = {
       .catch((err) => dispatch('failedToCapturePage', err));
   },
 
-  export(po, screenshot) {
-    console.log('export', po, screenshot);
+  export(state) {
+    exportAsHtml(state)
+      .then(() => this.dispatch('didExportAsHtml'))
+      .catch((err) => this.dispatch('failedToExportAsHtml', err));
   }
 };

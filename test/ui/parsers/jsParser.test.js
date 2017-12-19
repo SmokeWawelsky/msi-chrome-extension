@@ -2,13 +2,13 @@ const fs = require('fs');
 const expect = require('chai').expect;
 const debug = require('debug')('msi:test:jsParser');
 
-const parsers = require('../../../src/ui/parsers');
-const jsParser = require('../../../src/ui/parsers/jsParser');
+const parsers = require('../../../src/devtools/parsers');
+const jsParser = require('../../../src/devtools/parsers/jsParser');
 
 const JS_FILE_NAME = 'TestPageObject.js';
 const JS_FILE = `${__dirname}/${JS_FILE_NAME}`;
 
-describe('ui/parsers', function() {
+describe('devtools/parsers', function() {
   describe('jsParser', function() {
 
     it('should find javascript parser', function(done) {

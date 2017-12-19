@@ -3,8 +3,9 @@ const createVendorChunk = require('./webpack-create-vendor-chunk');
 
 module.exports = {
   entry: {
-    ui: './src/ui/index.js',
-    agent: './src/agent/index.js'
+    agent: './src/agent/index.js',
+    devtools: './src/devtools/index.js',
+    documentation: './src/documentation/index.js'
   },
 
   devtool: 'source-map',
@@ -18,7 +19,7 @@ module.exports = {
   plugins: [
     createVendorChunk({
       name: 'vendor',
-      chunks: ['ui']
+      chunks: ['devtools']
     })
   ],
 
