@@ -2,8 +2,12 @@ const React = require('react');
 const FluxMixin = require('fluxxor').FluxMixin(React);
 const StoreWatchMixin = require('fluxxor').StoreWatchMixin;
 const createReactClass = require('create-react-class');
+const { Tab, Tabs, TabList, TabPanel } = require('react-tabs');
+const classNames = require('classnames');
+
+const Logs = require('./Logs');
 const Controls = require('./Controls');
-const Preview = require('./Preview');
+const Screenshot = require('./Screenshot');
 const PageObject = require('./PageObject');
 
 const Main = createReactClass({
@@ -17,21 +21,36 @@ const Main = createReactClass({
   },
 
   render() {
-    const statusIcon = this.state.isConnected
-      ? 'glyphicon glyphicon-ok-circle'
-      : 'glyphicon glyphicon-ban-circle';
+    const statusClass = classNames('status', 'glyphicon', {
+      'glyphicon-ok-circle': this.state.isConnected,
+      'glyphicon-ban-circle': !this.state.isConnected
+    });
     return (
       <div className="main-container">
-        <div className="row">
-          <div className="col-md-6">
-            <Preview />
-          </div>
-          <div className="col-md-6">
-            <span className={statusIcon} />
-            <Controls />
-            <PageObject />
-          </div>
-        </div>
+        <span className={statusClass} />
+
+        <Controls />
+
+        <Tabs>
+          <TabList>
+            <Tab>Page</Tab>
+            <Tab>Logs</Tab>
+          </TabList>
+
+          <TabPanel>
+            <div className="row">
+              <div className="col-md-6">
+                <PageObject />
+              </div>
+              <div className="col-md-6">
+                <Screenshot />
+              </div>
+            </div>
+          </TabPanel>
+          <TabPanel>
+            <Logs />
+          </TabPanel>
+        </Tabs>
       </div>
     );
   }

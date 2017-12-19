@@ -16,7 +16,7 @@ const PageObject = createReactClass({
   render() {
     const po = JSON.stringify(this.state.po, null, 2);
     return (
-      <div className="pageobject">
+      <div className="pageobject pre-scrollable">
         <pre>{po}</pre>
       </div>
     );

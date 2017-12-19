@@ -23,13 +23,24 @@ const Control = createReactClass({
     this.getFlux().actions.pageobject.capturePage(this.state.po);
   },
 
+  handleExport(e) {
+    e.stopPropagation();
+    this.getFlux().actions.pageobject.export(this.state.po, this.state.screenshot);
+  },
+
   render() {
     return (
-      <div className="controls">
-        <button disabled={!this.state.po} onClick={this.handleCapturePage}>
+      <div className="controls btn-group">
+        <label className="btn btn-default btn-file">
+          <span className="glyphicon glyphicon-list" />
+          <input type="file" style={{ display: 'none' }} onChange={this.handleLoadPageObject} />
+        </label>
+        <button className="btn btn-default" disabled={!this.state.po} onClick={this.handleCapturePage}>
           <span className="glyphicon glyphicon-picture" />
         </button>
-        <input type="file" onChange={this.handleLoadPageObject} />
+        <button className="btn btn-default" disabled={!this.state.screenshot} onClick={this.handleExport}>
+          <span className="glyphicon glyphicon-export" />
+        </button>
       </div>
     );
   }

@@ -1,6 +1,7 @@
 const stores = [
   'ConnectionStore',
-  'PageObjectStore'
+  'PageObjectStore',
+  'LogStore'
 ];
 
 module.exports = {};

@@ -32,10 +32,12 @@
     "webpack": "3.10.0"
   },
   "dependencies": {
+    "classnames": "2.2.5",
     "create-react-class": "15.6.2",
     "fluxxor": "1.7.3",
     "java-parser": "0.0.2",
     "react": "15.6.2",
-    "react-dom": "15.6.2"
+    "react-dom": "15.6.2",
+    "react-tabs": "2.1.1"
   }
 }

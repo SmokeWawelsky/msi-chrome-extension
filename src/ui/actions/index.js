@@ -1,7 +1,7 @@
-const pageobject = require('./PageObjectActions');
-
 module.exports = {
-  pageobject,
+  pageobject: require('./PageObjectActions'),
+
+  log: require('./LogActions'),
 
   didConnect: function() {
     this.dispatch('connected');
