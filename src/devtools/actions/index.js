@@ -1,6 +1,5 @@
 module.exports = {
-  pageobject: require('./PageObjectActions'),
-
+  page: require('./PageActions'),
   log: require('./LogActions'),
 
   didConnect: function() {

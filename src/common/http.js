@@ -1,7 +1,10 @@
-module.exports = function request(url) {
+exports.get = request.bind(exports, 'GET');
+
+function request(method, url) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
+    xhr.open(method, url, true);
+    xhr.onerror = () => reject(xhr.statusText);
     xhr.onload = () => {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
@@ -11,7 +14,6 @@ module.exports = function request(url) {
         }
       }
     };
-    xhr.onerror = () => reject(xhr.statusText);
     xhr.send();
   });
-};
+}

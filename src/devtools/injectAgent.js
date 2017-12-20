@@ -1,5 +1,5 @@
 const communicator = require('./communicator');
-const request = require('./request');
+const http = require('../common/http');
 
 // thx https://github.com/emberjs/ember-inspector/blob/master/app/adapters/chrome.js
 module.exports = function injectAgent() {
@@ -11,7 +11,7 @@ module.exports = function injectAgent() {
     } else {
       // script hasn't been injected yet
       const agentUrl = chrome.extension.getURL('/build/agent.bundle.js');
-      request(agentUrl).then((script) => {
+      http.get(agentUrl).then((script) => {
         chrome.devtools.inspectedWindow.eval(script, (result, err) => {
           if (err) console.error(err.value);
           else communicator.sendMessage('connect');

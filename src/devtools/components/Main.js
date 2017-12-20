@@ -1,34 +1,21 @@
 const React = require('react');
 const FluxMixin = require('fluxxor').FluxMixin(React);
-const StoreWatchMixin = require('fluxxor').StoreWatchMixin;
 const createReactClass = require('create-react-class');
 const { Tab, Tabs, TabList, TabPanel } = require('react-tabs');
-const classNames = require('classnames');
 
 const Logs = require('./Logs');
+const Status = require('./Status');
 const Controls = require('./Controls');
 const Screenshot = require('./Screenshot');
 const PageObject = require('./PageObject');
 
 const Main = createReactClass({
-  mixins: [
-    FluxMixin,
-    StoreWatchMixin('ConnectionStore')
-  ],
-
-  getStateFromFlux() {
-    return this.getFlux().store('ConnectionStore');
-  },
+  mixins: [ FluxMixin ],
 
   render() {
-    const statusClass = classNames('status', 'glyphicon', {
-      'glyphicon-ok-circle': this.state.isConnected,
-      'glyphicon-ban-circle': !this.state.isConnected
-    });
     return (
       <div className="main-container">
-        <span className={statusClass} />
-
+        <Status />
         <Controls />
 
         <Tabs>
@@ -47,6 +34,7 @@ const Main = createReactClass({
               </div>
             </div>
           </TabPanel>
+          
           <TabPanel>
             <Logs />
           </TabPanel>

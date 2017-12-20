@@ -1,4 +1,4 @@
-require('../../style/main.less');
+require('./style/main.less');
 
 const React = require('react');
 const ReactDOM = require('react-dom');

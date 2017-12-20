@@ -25,7 +25,7 @@ const Elements = createReactClass({
   },
 
   elements() {
-    return window.msi.po.elements.filter(createFilter(this.state.searchTerm, [ 'name' ]));
+    return window.msi.elements.filter(createFilter(this.state.searchTerm, [ 'name' ]));
   },
 
   render() {
@@ -36,7 +36,7 @@ const Elements = createReactClass({
         {this.elements().map((e) =>
           <div key={e.name} className="panel panel-default" data-header={e.name}>
             <div className="panel-body">
-              {e.selector.type}: {e.selector.value}
+              {e.selector.type}: <code>{e.selector.value}</code>
             </div>
           </div>)}
         </Accordion>

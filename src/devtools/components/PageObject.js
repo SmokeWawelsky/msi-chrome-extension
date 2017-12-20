@@ -6,15 +6,16 @@ const createReactClass = require('create-react-class');
 const PageObject = createReactClass({
   mixins: [
     FluxMixin,
-    StoreWatchMixin('PageObjectStore')
+    StoreWatchMixin('PageStore')
   ],
 
   getStateFromFlux() {
-    return this.getFlux().store('PageObjectStore');
+    return this.getFlux().store('PageStore');
   },
 
   render() {
-    const po = JSON.stringify(this.state.po, null, 2);
+    const { source, uri, name, elements } = this.state;
+    const po = JSON.stringify({ source, uri, name, elements }, null, 2);
     return (
       <div className="pageobject pre-scrollable">
         <pre>{po}</pre>

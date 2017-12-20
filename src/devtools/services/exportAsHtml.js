@@ -1,9 +1,9 @@
 const FileSaver = require('file-saver');
-const request = require('../request');
+const http = require('../../common/http');
 
 const jsBundleUrl = chrome.extension.getURL('/build/documentation.bundle.js');
 
-const serialize = (title, msi, jsBundle) => `<!DOCTYPE html>
+const serialize = (title, jsBundle, msi) => `<!DOCTYPE html>
 <html>
   <head>
     <title>Documentation ${title}</title>
@@ -16,14 +16,18 @@ const serialize = (title, msi, jsBundle) => `<!DOCTYPE html>
 </html>`;
 
 module.exports = function exportAsHtml(state) {
-  return request(jsBundleUrl).then((jsBundle) => {
-    const { dimensions, po, screenshot } = state;
-    serializeAndSave({ dimensions, po, screenshot }, jsBundle);
+  return http.get(jsBundleUrl).then((jsBundle) => {
+    const { source, uri, name, elements, screenshot } = state;
+    const html = serialize(name, jsBundle, JSON.stringify({
+      source, uri, name, elements, screenshot
+    }));
+    const fileName = `${name}.html`;
+    save(fileName, html);
+    return fileName;
   });
 };
 
-function serializeAndSave(msi, jsBundle) {
-  const html = serialize(msi.po.name, JSON.stringify(msi), jsBundle);
+function save(fileName, html) {
   const blob = new Blob([ html ], { type: 'text/html;charset=utf-8' });
-  FileSaver.saveAs(blob, `${msi.po.name}.html`);
+  FileSaver.saveAs(blob, fileName);
 }

@@ -3,23 +3,21 @@ const FluxMixin = require('fluxxor').FluxMixin(React);
 const StoreWatchMixin = require('fluxxor').StoreWatchMixin;
 const createReactClass = require('create-react-class');
 
-const Preview = createReactClass({
+const Screenshot = createReactClass({
   mixins: [
     FluxMixin,
-    StoreWatchMixin('PageObjectStore')
+    StoreWatchMixin('PageStore')
   ],
 
   getStateFromFlux() {
-    return this.getFlux().store('PageObjectStore');
+    return this.getFlux().store('PageStore');
   },
 
   render() {
-    return (
-      <div className="preview">
-        <img src={this.state.result} className="img-responsive" />
-      </div>
-    );
+    return this.state.screenshot
+      ? <img src={this.state.screenshot.image} className="img-responsive" />
+      : <span />;
   }
 });
 
-module.exports = Preview;
+module.exports = Screenshot;

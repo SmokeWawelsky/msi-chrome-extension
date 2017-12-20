@@ -2,19 +2,19 @@ module.exports = function capturePageInfo(data) {
   // const originalBodyOverflowYStyle = document.body ? document.body.style.overflowY : '';
   // const originalOverflowStyle = document.documentElement.style.overflow;
 
-  const dimensions = measureDimensions();
+  const info = measure();
   const elements = {};
 
   measureElements(data.elements).forEach(([ name, coords ]) => {
     elements[name] = {
-      x: Math.round(coords.x + dimensions.originalX),
-      y: Math.round(coords.y + dimensions.originalY),
+      x: Math.round(coords.x + info.originalX),
+      y: Math.round(coords.y + info.originalY),
       width: Math.round(coords.width),
       height: Math.round(coords.height)
     };
   });
 
-  const response = { dimensions, elements };
+  const response = { info, elements };
 
   // document.documentElement.style.overflow = originalOverflowStyle;
   // if (document.body) document.body.style.overflowY = originalBodyOverflowYStyle;
@@ -22,7 +22,7 @@ module.exports = function capturePageInfo(data) {
   return response;
 };
 
-function measureDimensions() {
+function measure() {
   const doc = document.documentElement;
   const body = document.body;
   const originalX = window.scrollX;
@@ -46,6 +46,7 @@ function measureDimensions() {
   );
 
   return {
+    uri: window.location.href,
     fullWidth, fullHeight,
     windowWidth, windowHeight,
     devicePixelRatio: window.devicePixelRatio,

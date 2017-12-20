@@ -47,11 +47,9 @@ function screenshot() {
 
 function stitch(chunks, dimensions) {
   const canvas = createCanvas(dimensions.fullWidth, dimensions.fullHeight);
-  let $p = Promise.resolve();
-  chunks.forEach((chunk) => {
-    $p = $p.then(() => asImg(chunk.screenshot).then((img) => {
+  return chunks.reduce(($p, chunk) => {
+    return $p.then(() => asImg(chunk.screenshot).then((img) => {
       canvas.ctx.drawImage(img, 0, chunk.y, dimensions.windowWidth, dimensions.windowHeight);
     }));
-  });
-  return $p.then(() => canvas.toDataURL());
+  }, Promise.resolve()).then(() => canvas.toDataURL());
 }

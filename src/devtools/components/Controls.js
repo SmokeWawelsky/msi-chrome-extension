@@ -6,26 +6,26 @@ const createReactClass = require('create-react-class');
 const Control = createReactClass({
   mixins: [
     FluxMixin,
-    StoreWatchMixin('PageObjectStore')
+    StoreWatchMixin('PageStore')
   ],
 
   getStateFromFlux() {
-    return this.getFlux().store('PageObjectStore');
+    return this.getFlux().store('PageStore');
   },
 
   handleLoadPageObject(e) {
     e.stopPropagation();
-    this.getFlux().actions.pageobject.loadPageObject(e.target.files[0]);
+    this.getFlux().actions.page.loadPageObject(e.target.files[0]);
   },
 
   handleCapturePage(e) {
     e.stopPropagation();
-    this.getFlux().actions.pageobject.capturePage(this.state.po);
+    this.getFlux().actions.page.capturePage(this.state.elements);
   },
 
   handleExport(e) {
     e.stopPropagation();
-    this.getFlux().actions.pageobject.export(this.state);
+    this.getFlux().actions.page.export(this.state);
   },
 
   render() {
@@ -35,7 +35,7 @@ const Control = createReactClass({
           <span className="glyphicon glyphicon-list" />
           <input type="file" style={{ display: 'none' }} onChange={this.handleLoadPageObject} />
         </label>
-        <button className="btn btn-default" disabled={!this.state.po} onClick={this.handleCapturePage}>
+        <button className="btn btn-default" disabled={!this.state.elements} onClick={this.handleCapturePage}>
           <span className="glyphicon glyphicon-picture" />
         </button>
         <button className="btn btn-default" disabled={!this.state.screenshot} onClick={this.handleExport}>
