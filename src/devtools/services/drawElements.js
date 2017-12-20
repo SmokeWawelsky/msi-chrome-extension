@@ -1,8 +1,8 @@
-const gfx = require('./graphics');
+const { asImg, createCanvas } = require('../../common/graphics');
 
 module.exports = function drawElements(elements, imageData) {
-  return gfx.asImg(imageData).then((screen) => {
-    const canvas = gfx.createCanvas(screen.width, screen.height);
+  return asImg(imageData).then((screen) => {
+    const canvas = createCanvas(screen.width, screen.height);
 
     canvas.ctx.drawImage(screen, 0, 0);
 

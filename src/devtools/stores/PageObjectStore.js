@@ -34,8 +34,8 @@ module.exports = Fluxxor.createStore({
     this.emit('change');
   },
 
-  onDidCaptureScreenshot(screenshot) {
-    this.screenshot = screenshot.screenshot;
+  onDidCaptureScreenshot(data) {
+    this.screenshot = data.screenshot;
     this.emit('change');
   },
 

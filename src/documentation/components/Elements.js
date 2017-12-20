@@ -3,6 +3,7 @@ const createReactClass = require('create-react-class');
 const Accordion = require('react-tiny-accordion');
 const SearchInput = require('react-search-input').default;
 const { createFilter } = require('react-search-input');
+const screenshotHelper = require('../services/screenshotHelper');
 
 const Elements = createReactClass({
   getInitialState() {
@@ -10,16 +11,29 @@ const Elements = createReactClass({
   },
 
   searchUpdated(searchTerm) {
+    screenshotHelper.reset();
     this.setState({ searchTerm });
   },
 
+  elementChange(index, isOpened) {
+    if (isOpened) {
+      const coords = this.elements()[index].coords;
+      screenshotHelper.highlight(coords);
+    } else {
+      screenshotHelper.reset();
+    }
+  },
+
+  elements() {
+    return window.msi.po.elements.filter(createFilter(this.state.searchTerm, [ 'name' ]));
+  },
+
   render() {
-    const elements = window.msi.po.elements.filter(createFilter(this.state.searchTerm, [ 'name' ]));
     return (
       <div>
         <SearchInput className="search-input" onChange={this.searchUpdated} />
-        <Accordion className="accordion">
-        {elements.map((e) =>
+        <Accordion className="accordion" onChange={this.elementChange}>
+        {this.elements().map((e) =>
           <div key={e.name} className="panel panel-default" data-header={e.name}>
             <div className="panel-body">
               {e.selector.type}: {e.selector.value}

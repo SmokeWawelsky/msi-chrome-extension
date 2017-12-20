@@ -6,9 +6,12 @@ module.exports = function capturePageInfo(data) {
   const elements = {};
 
   measureElements(data.elements).forEach(([ name, coords ]) => {
-    coords.x += dimensions.originalX;
-    coords.y += dimensions.originalY;
-    elements[name] = coords;
+    elements[name] = {
+      x: Math.round(coords.x + dimensions.originalX),
+      y: Math.round(coords.y + dimensions.originalY),
+      width: Math.round(coords.width),
+      height: Math.round(coords.height)
+    };
   });
 
   const response = { dimensions, elements };
@@ -67,8 +70,5 @@ const findBy = {
 
 function findElementCoords(selector) {
   const element = findBy[selector.type](selector.value);
-  if (element) {
-    const { x, y, width, height } = element.getBoundingClientRect();
-    return { x, y, width, height };
-  }
+  return element && element.getBoundingClientRect();
 }

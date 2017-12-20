@@ -21,7 +21,7 @@ module.exports = {
       .then((info) => dispatch('didCapturePageInfo', info))
       .then(() => captureScreenshot(ctx.dimensions))
       .then((screenshot) => dispatch('didCaptureScreenshot', { screenshot }))
-      .then(() => drawElements(po.elements, ctx.screenshot))
+      .then(() => drawElements(po.elements, ctx.screenshot.image))
       .then((image) => dispatch('didDrawElements', image))
       .catch((err) => dispatch('failedToCapturePage', err));
   },

@@ -1,15 +1,18 @@
 const communicator = require('../communicator');
-const gfx = require('./graphics');
+const { asImg, createCanvas } = require('../../common/graphics');
 
 let ID = 0;
 
 module.exports = function captureScreenshot(dimensions) {
-  let $p = Promise.resolve();
   const chunks = prepare(dimensions);
-  chunks.forEach((chunk) => {
-    $p = $p.then(() => capture(chunk));
-  });
-  return $p.then(() => stitch(chunks, dimensions));
+  return chunks
+    .reduce(($p, chunk) => {
+      return $p.then(() => capture(chunk));
+    }, Promise.resolve())
+    .then(() => stitch(chunks, dimensions))
+    .then((image) => ({
+      image, width: dimensions.fullWidth, height: dimensions.fullHeight
+    }));
 };
 
 function prepare(dimensions) {
@@ -43,10 +46,10 @@ function screenshot() {
 }
 
 function stitch(chunks, dimensions) {
-  const canvas = gfx.createCanvas(dimensions.fullWidth, dimensions.fullHeight);
+  const canvas = createCanvas(dimensions.fullWidth, dimensions.fullHeight);
   let $p = Promise.resolve();
   chunks.forEach((chunk) => {
-    $p = $p.then(() => gfx.asImg(chunk.screenshot).then((img) => {
+    $p = $p.then(() => asImg(chunk.screenshot).then((img) => {
       canvas.ctx.drawImage(img, 0, chunk.y, dimensions.windowWidth, dimensions.windowHeight);
     }));
   });

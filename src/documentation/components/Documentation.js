@@ -18,8 +18,9 @@ const Documentation = createReactClass({
   render() {
     return (
       <SplitPane split="vertical" minSize={200} defaultSize={400} primary="second">
-        <div>
-          <img src={this.state.screenshot} className="img-responsive" />
+        <div style={{ background: '#000' }}>
+          <img id="screenshot" className="img-responsive"
+            src={this.state.screenshot.image} />
         </div>
         <div>
           <Elements />

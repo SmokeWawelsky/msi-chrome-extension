@@ -33,7 +33,7 @@ const Main = createReactClass({
 
         <Tabs>
           <TabList>
-            <Tab>Page</Tab>
+            <Tab>Preview</Tab>
             <Tab>Logs</Tab>
           </TabList>
 
