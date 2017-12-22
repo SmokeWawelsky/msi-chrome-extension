@@ -1,4 +1,4 @@
-const readFile = require('./readFile');
+const { readFile } = require('./fileOperations');
 const parsers = require('../parsers');
 
 module.exports = function loadPageObject(file) {

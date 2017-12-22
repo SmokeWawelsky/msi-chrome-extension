@@ -6,11 +6,11 @@ const createReactClass = require('create-react-class');
 const Screenshot = createReactClass({
   mixins: [
     FluxMixin,
-    StoreWatchMixin('PageStore')
+    StoreWatchMixin('ProjectStore')
   ],
 
   getStateFromFlux() {
-    return this.getFlux().store('PageStore');
+    return this.getFlux().store('ProjectStore');
   },
 
   render() {

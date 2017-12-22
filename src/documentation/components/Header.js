@@ -12,14 +12,7 @@ const Header = createReactClass({
             </a>
           </div>
           <div className="navbar-text">
-            <ul className="list-inline">
-              <li>
-                name: <code>{window.msi.name}</code>
-              </li>
-              <li>
-                uri: <code>{window.msi.uri}</code>
-              </li>
-            </ul>
+            <code>{window.msi.name}</code>
           </div>
         </div>
       </nav>

@@ -1,6 +1,6 @@
 const stores = [
   'ConnectionStore',
-  'PageStore',
+  'ProjectStore',
   'LogStore'
 ];
 

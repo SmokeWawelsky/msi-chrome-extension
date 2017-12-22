@@ -1,40 +1,59 @@
 const React = require('react');
 const FluxMixin = require('fluxxor').FluxMixin(React);
+const StoreWatchMixin = require('fluxxor').StoreWatchMixin;
 const createReactClass = require('create-react-class');
 const { Tab, Tabs, TabList, TabPanel } = require('react-tabs');
 
-const Logs = require('./Logs');
 const Status = require('./Status');
-const Controls = require('./Controls');
-const Screenshot = require('./Screenshot');
-const PageObject = require('./PageObject');
+const Project = require('./Project');
+const Logs = require('./Logs');
 
 const Main = createReactClass({
-  mixins: [ FluxMixin ],
+  mixins: [
+    FluxMixin,
+    StoreWatchMixin('ProjectStore')
+  ],
+
+  getStateFromFlux() {
+    return this.getFlux().store('ProjectStore');
+  },
+
+  handleProjectNameChange(e) {
+    this.getFlux().actions.updateName(e.target.value);
+  },
 
   render() {
     return (
       <div className="main-container">
-        <Status />
-        <Controls />
-
-        <Tabs>
+        <Tabs defaultIndex={1}>
           <TabList>
-            <Tab>Preview</Tab>
-            <Tab>Logs</Tab>
+            <Tab disabled={true}>
+              <Status />
+            </Tab>
+            <Tab>
+              <form className="form-inline">
+                <div className="form-group">
+                  <span>
+                    {this.state.modified ? '*' : ''}
+                  </span>
+                  <label htmlFor="projectName">
+                    <span>Project</span>
+                  </label>
+                  <input id="projectName" className="form-control input-sm"
+                    type="text" value={this.state.name} placeholder="set name"
+                    onChange={this.handleProjectNameChange} />
+                </div>
+              </form>
+            </Tab>
+            <Tab>
+              Logs
+            </Tab>
           </TabList>
 
+          <TabPanel />
           <TabPanel>
-            <div className="row">
-              <div className="col-md-6">
-                <PageObject />
-              </div>
-              <div className="col-md-6">
-                <Screenshot />
-              </div>
-            </div>
+            <Project />
           </TabPanel>
-          
           <TabPanel>
             <Logs />
           </TabPanel>

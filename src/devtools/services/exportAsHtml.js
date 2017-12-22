@@ -1,7 +1,9 @@
-const FileSaver = require('file-saver');
 const http = require('../../common/http');
+const { saveFile } = require('./fileOperations');
 
 const jsBundleUrl = chrome.extension.getURL('/build/documentation.bundle.js');
+
+const mime = 'text/html;charset=utf-8';
 
 const serialize = (title, jsBundle, msi) => `<!DOCTYPE html>
 <html>
@@ -15,19 +17,22 @@ const serialize = (title, jsBundle, msi) => `<!DOCTYPE html>
   </body>
 </html>`;
 
-module.exports = function exportAsHtml(state) {
+module.exports = function exportAsHtml(project) {
   return http.get(jsBundleUrl).then((jsBundle) => {
-    const { source, uri, name, elements, screenshot } = state;
-    const html = serialize(name, jsBundle, JSON.stringify({
-      source, uri, name, elements, screenshot
-    }));
-    const fileName = `${name}.html`;
-    save(fileName, html);
-    return fileName;
+    const html = serialize(project.name, jsBundle, msi(project));
+    return saveFile(`${project.name}.html`, mime, html);
   });
 };
 
-function save(fileName, html) {
-  const blob = new Blob([ html ], { type: 'text/html;charset=utf-8' });
-  FileSaver.saveAs(blob, fileName);
+function msi(project) {
+  return JSON.stringify({
+    name: project.name,
+    pages: project.pages.map((page) => ({
+      name: page.name,
+      source: page.source,
+      uri: page.info.uri,
+      elements: page.elements,
+      screenshot: page.screenshot
+    }))
+  }, null, 2);
 }

@@ -13,5 +13,5 @@ handleMessages(flux);
 
 const Main = require('./components/Main');
 window.addEventListener('load', () => {
-  ReactDOM.render(<Main flux={flux}/>, document.getElementById('container'));
+  ReactDOM.render(<Main flux={flux} />, document.getElementById('container'));
 });

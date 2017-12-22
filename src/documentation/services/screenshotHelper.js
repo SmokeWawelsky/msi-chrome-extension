@@ -1,46 +1,63 @@
 const { asImg, createCanvas } = require('../../common/graphics');
 
-const canvas = createCanvas(window.msi.screenshot.width, window.msi.screenshot.height);
-const $ready = asImg(window.msi.screenshot.image)
-  .then((image) => canvas.ctx.drawImage(image, 0, 0));
+const cache = {};
 
-exports.cutImage = function(coords) {
-  return $ready.then(() => {
-    const idata = canvas.ctx.getImageData(coords.x, coords.y, coords.width, coords.height);
-    const icanvas = createCanvas(coords.width, coords.height);
-    icanvas.ctx.putImageData(idata, 0, 0);
-    return asImg(icanvas.toDataURL());
+function getCanvas(index) {
+  return cached(index, () => {
+    const screenshot = window.msi.pages[index].screenshot;
+    const canvas = createCanvas(screenshot.width, screenshot.height);
+    return asImg(screenshot.image).then((image) => {
+      canvas.ctx.drawImage(image, 0, 0);
+      return canvas;
+    });
   });
-};
+}
 
-let highlighted = null;
+function cutImage(index, coords) {
+  return cached(index + JSON.stringify(coords), () => {
+    return getCanvas(index).then((canvas) => {
+      const idata = canvas.ctx.getImageData(coords.x, coords.y, coords.width, coords.height);
+      const icanvas = createCanvas(coords.width, coords.height);
+      icanvas.ctx.putImageData(idata, 0, 0);
+      return asImg(icanvas.toDataURL());
+    });
+  });
+}
 
-exports.highlight = function(coords) {
-  exports.cutImage(coords).then((img) => {
-    const screenshot = document.getElementById('screenshot')
-    const ratio = screenshot.width / window.msi.screenshot.width;
+const highlighted = {};
+
+exports.highlight = function(index, coords) {
+  cutImage(index, coords).then((img) => {
+    const simage = document.getElementById(`screenshot-${index}`);
+    const ratio = simage.width / window.msi.pages[index].screenshot.width;
     const px = (x) => Math.round(x * ratio) + 'px';
 
-    img.style.position = 'relative';
+    img.style.position = 'absolute';
     img.style.top = px(coords.y);
     img.style.left = px(coords.x);
     img.style.width = px(coords.width);
     img.style.height = px(coords.height);
 
-    if (highlighted) {
-      document.body.removeChild(highlighted);
+    if (highlighted[index]) {
+      simage.parentNode.removeChild(highlighted[index]);
     } else {
-      screenshot.style.opacity = 0.3;
+      simage.style.opacity = 0.3;
     }
-    document.body.appendChild(img);
-    highlighted = img;
+    simage.parentNode.appendChild(img);
+    highlighted[index] = img;
   });
 };
 
-exports.reset = function() {
-  if (highlighted) {
-    document.body.removeChild(highlighted);
-    document.getElementById('screenshot').style.opacity = 1;
-    highlighted = null;
+exports.reset = function(index) {
+  if (highlighted[index]) {
+    const simage = document.getElementById(`screenshot-${index}`);
+    simage.parentNode.removeChild(highlighted[index]);
+    simage.style.opacity = 1;
+    delete highlighted[index];
   }
 };
+
+function cached(key, factory) {
+  if (cache[key]) return Promise.resolve(cache[key]);
+  return factory().then((object) => cache[key] = object);
+}
